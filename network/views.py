@@ -10,6 +10,7 @@ from .serializers import (
     NetworkNodeCreateUpdateSerializer
 )
 from .filters import NetworkNodeFilter
+from .permissions import IsActiveEmployee
 
 
 class NetworkNodeViewSet(viewsets.ModelViewSet):
@@ -20,7 +21,7 @@ class NetworkNodeViewSet(viewsets.ModelViewSet):
     queryset = NetworkNode.objects.all().select_related(
         'contact', 'supplier'
     ).prefetch_related('products')
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsActiveEmployee]
     filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
     filterset_class = NetworkNodeFilter
     search_fields = ['name', 'contact__city', 'contact__country']
